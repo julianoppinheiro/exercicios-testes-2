@@ -55,4 +55,14 @@ public class DespesaController {
     public void deleteId(@PathVariable Long id) {
         service.excluirDespesa(id);
     }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> getByStatus(@PathVariable String status) {
+        try {
+
+            return ResponseEntity.ok(service.listarPorStatus(status));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

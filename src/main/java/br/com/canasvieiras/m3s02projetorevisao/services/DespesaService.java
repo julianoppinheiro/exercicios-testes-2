@@ -31,7 +31,7 @@ public class DespesaService {
         despesaBanco.setDescricao(despesa.getDescricao());
         despesaBanco.setValor(despesa.getValor());
         despesaBanco.setCredor(despesa.getCredor());
-        despesaBanco.setStatus("Pendente");
+        despesaBanco.setStatus("pendente");
         despesaBanco.setDataPagamento(null);
 
         if (despesa.getDataVencimento() == null) { // valida o valor da propriedade antes de salvar a entidade
@@ -55,11 +55,11 @@ public class DespesaService {
 
         if (despesanova.isPresent()) {
             Despesa despesaBanco = despesanova.get();
-            if (despesaBanco.getStatus().equals("Paga")) {
+            if (despesaBanco.getStatus().toLowerCase().equals("paga")) {
                 throw new Exception("Despesa já paga!");
             }
             //pagar a despesa
-            if (despesa.getStatus().equals("Paga")) {
+            if (despesa.getStatus().toLowerCase().equals("paga")) {
                 despesaBanco.pagar();
                 return despesaRepository.save(despesaBanco);
             }
@@ -80,6 +80,15 @@ public class DespesaService {
 
     public void excluirDespesa(Long id) {
         despesaRepository.deleteById(id);
+    }
+
+    //listar por status
+    public List<Despesa> listarPorStatus(String status) throws Exception {
+
+        if (status.toLowerCase() == null || status.isEmpty()) {
+            throw new Exception("Status é obrigatório!");
+        }
+        return despesaRepository.findByStatus(status);
     }
 
 }

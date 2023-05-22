@@ -34,10 +34,10 @@ public class Despesa {
 
     @Column(nullable = false)
     //aceitar os valores "Pendente" e "Paga", porém o valor padrão deve ser "Pendente"
-    private String status = "Pendente";
+    private String status = "pendente";
 
     public void pagar() {
-        this.status = "Paga";
+        this.status = "paga";
         this.dataPagamento = new Date();
     }
 
