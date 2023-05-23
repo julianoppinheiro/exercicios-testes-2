@@ -56,11 +56,22 @@ public class DespesaController {
         service.excluirDespesa(id);
     }
 
+    //listar por status
     @GetMapping("/status/{status}")
     public ResponseEntity<?> getByStatus(@PathVariable String status) {
         try {
 
             return ResponseEntity.ok(service.listarPorStatus(status));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    //pagar despesa,
+    @PutMapping("/pagar/{id}")
+    public ResponseEntity<?> pagarDespesa(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(service.pagarDespesa(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

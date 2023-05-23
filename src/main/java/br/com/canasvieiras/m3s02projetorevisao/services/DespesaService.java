@@ -58,12 +58,6 @@ public class DespesaService {
             if (despesaBanco.getStatus().toLowerCase().equals("paga")) {
                 throw new Exception("Despesa já paga!");
             }
-            //pagar a despesa
-            if (despesa.getStatus().toLowerCase().equals("paga")) {
-                despesaBanco.pagar();
-                return despesaRepository.save(despesaBanco);
-            }
-
             //atualizar a despesa
             despesaBanco.setDescricao(despesa.getDescricao());
             despesaBanco.setValor(despesa.getValor());
@@ -89,6 +83,25 @@ public class DespesaService {
             throw new Exception("Status é obrigatório!");
         }
         return despesaRepository.findByStatus(status);
+    }
+
+    //pagar despesa
+    public Despesa pagarDespesa(Long id) throws Exception {
+
+        Optional<Despesa> despesanova = despesaRepository.findById(id);
+
+        if (despesanova.isPresent()) {
+            Despesa despesaBanco = despesanova.get();
+            if (despesaBanco.getStatus().toLowerCase().equals("paga")) {
+                throw new Exception("Despesa já paga!");
+            }
+            //pagar a despesa
+            despesaBanco.pagar();
+            return despesaRepository.save(despesaBanco);
+        } else {
+            //retornar que nao foi encontrado
+            throw new Exception("Despesa não encontrada!");
+        }
     }
 
 }
