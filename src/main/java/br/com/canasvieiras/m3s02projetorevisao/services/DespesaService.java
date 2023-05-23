@@ -104,4 +104,23 @@ public class DespesaService {
         }
     }
 
+    //estornar despesa
+    public Despesa estornarDespesa(Long id) throws Exception {
+
+        Optional<Despesa> despesanova = despesaRepository.findById(id);
+
+        if (despesanova.isPresent()) {
+            Despesa despesaBanco = despesanova.get();
+            if (despesaBanco.getStatus().toLowerCase().equals("pendente")) {
+                throw new Exception("Despesa não paga!");
+            }
+            //estornar a despesa
+            despesaBanco.estornar();
+            return despesaRepository.save(despesaBanco);
+        } else {
+            //retornar que nao foi encontrado
+            throw new Exception("Despesa não encontrada!");
+        }
+    }
+
 }

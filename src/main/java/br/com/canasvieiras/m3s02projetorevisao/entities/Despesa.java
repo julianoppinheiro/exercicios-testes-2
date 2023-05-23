@@ -40,5 +40,8 @@ public class Despesa {
         this.status = "paga";
         this.dataPagamento = new Date();
     }
-
+    public void estornar() {
+        this.status = "pendente";
+        this.dataPagamento = null;
+    }
 }
